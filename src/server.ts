@@ -3,6 +3,8 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { getDatabase } from './data/db.js';
+import { registerSearchCards } from './tools/search-cards.js';
+import { registerBrowseSets } from './tools/browse-sets.js';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -32,9 +34,10 @@ export function createServer(options?: ServerOptions): McpServer {
 
   const db = options?.db ?? getDatabase(options?.dataDir);
 
-  // TODO: register tools here
-  // registerSearchCards(server, db);
-  // registerBrowseSets(server, db);
+  // Register tools
+  registerSearchCards(server, db);
+  registerBrowseSets(server, db);
+  // TODO: register remaining tools
   // registerCharacterVersions(server, db);
   // registerBrowseFranchise(server, db);
   // registerAnalyzeInkCurve(server, db);
