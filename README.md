@@ -9,7 +9,10 @@ Disney Lorcana TCG MCP server -- card search, deck analysis, and franchise brows
   <a href="https://modelcontextprotocol.io"><img src="https://img.shields.io/badge/MCP-compatible-purple.svg" alt="MCP Compatible"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
   <a href="https://github.com/sponsors/gregario"><img src="https://img.shields.io/badge/sponsor-♥-ea4aaa.svg" alt="Sponsor"></a>
+  <a href="https://glama.ai/mcp/servers/gregario/lorcana-oracle"><img src="https://glama.ai/mcp/servers/gregario/lorcana-oracle/badges/score.svg" alt="lorcana-oracle MCP server"></a>
 </p>
+
+<!-- mcp-name: io.github.gregario/lorcana-oracle -->
 
 ## Features
 

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["gregario"],
+  "relatedServers": [
+    {"name": "mtg-oracle", "url": "https://glama.ai/mcp/servers/gregario/mtg-oracle", "description": "Magic: The Gathering card database MCP server"},
+    {"name": "dnd-oracle", "url": "https://glama.ai/mcp/servers/gregario/dnd-oracle", "description": "D&D 5e SRD database MCP server"},
+    {"name": "onepiece-oracle", "url": "https://glama.ai/mcp/servers/gregario/onepiece-oracle", "description": "One Piece TCG database MCP server"}
+  ]
+}

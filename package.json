@@ -19,7 +19,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "fetch-data": "tsx scripts/fetch-data.ts",
-    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js"
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js",
+    "prepublishOnly": "npm run build && npm test"
   },
   "engines": {
     "node": ">=18.0.0"
