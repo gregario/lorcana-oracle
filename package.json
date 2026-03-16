@@ -1,0 +1,50 @@
+{
+  "name": "lorcana-oracle",
+  "version": "0.1.0",
+  "description": "Disney Lorcana TCG MCP server — card search, deck analysis, and franchise browsing powered by LorcanaJSON",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "lorcana-oracle": "dist/server.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc && mkdir -p dist/data && cp src/data/schema.sql dist/data/schema.sql && (test -f src/data/lorcana.sqlite && cp src/data/lorcana.sqlite dist/data/lorcana.sqlite || true) && chmod +x dist/server.js",
+    "start": "node dist/server.js",
+    "dev": "tsx src/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "fetch-data": "tsx scripts/fetch-data.ts",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "lorcana",
+    "disney",
+    "tcg",
+    "trading-card-game",
+    "oracle"
+  ],
+  "mcpName": "io.github.gregario/lorcana-oracle",
+  "author": "gregario",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12",
+    "better-sqlite3": "^12.8",
+    "zod": "^3.25"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6",
+    "@types/node": "^22.0",
+    "tsx": "^4.0",
+    "typescript": "^5.8",
+    "vitest": "^3.0"
+  }
+}
