@@ -131,6 +131,23 @@ export function transformCard(card: LorcanaCard): TransformedCard {
   };
 }
 
+// ── Response shape ──
+
+interface LorcanaSet {
+  name: string;
+  number: number;
+  type: string;
+  releaseDate?: string;
+  prereleaseDate?: string;
+  hasAllCards?: boolean;
+}
+
+interface LorcanaResponse {
+  metadata?: unknown;
+  sets: Record<string, LorcanaSet>;
+  cards: LorcanaCard[];
+}
+
 // ── Ingestion ──
 
 async function fetchAndIngest(): Promise<void> {
@@ -139,16 +156,10 @@ async function fetchAndIngest(): Promise<void> {
   if (!response.ok) {
     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
   }
-  const cards = (await response.json()) as LorcanaCard[];
-  console.log(`Fetched ${cards.length} cards`);
-
-  // Extract unique sets from card data
-  const setsMap = new Map<string, { code: string; name: string }>();
-  for (const card of cards) {
-    if (!setsMap.has(card.setCode)) {
-      setsMap.set(card.setCode, { code: card.setCode, name: card.setCode });
-    }
-  }
+  const data = (await response.json()) as LorcanaResponse;
+  const cards = data.cards;
+  const setsData = data.sets;
+  console.log(`Fetched ${cards.length} cards, ${Object.keys(setsData).length} sets`);
 
   // Delete existing db if present
   const fs = await import('node:fs');
@@ -164,10 +175,7 @@ async function fetchAndIngest(): Promise<void> {
   const schema = readFileSync(SCHEMA_PATH, 'utf-8');
   db.exec(schema);
 
-  // Insert sets
-  const insertSet = db.prepare(
-    'INSERT OR IGNORE INTO sets (code, name, card_count) VALUES (?, ?, ?)',
-  );
+  // Count cards per set
   const setCardCounts = new Map<string, number>();
   for (const card of cards) {
     setCardCounts.set(
@@ -175,13 +183,26 @@ async function fetchAndIngest(): Promise<void> {
       (setCardCounts.get(card.setCode) ?? 0) + 1,
     );
   }
+
+  // Insert sets using set metadata from the response
+  const insertSet = db.prepare(
+    'INSERT OR IGNORE INTO sets (code, name, type, release_date, prerelease_date, card_count) VALUES (?, ?, ?, ?, ?, ?)',
+  );
   const insertSets = db.transaction(() => {
-    for (const [code, count] of setCardCounts) {
-      insertSet.run(code, code, count);
+    for (const [code, setInfo] of Object.entries(setsData)) {
+      const cardCount = setCardCounts.get(code) ?? 0;
+      insertSet.run(
+        code,
+        setInfo.name,
+        setInfo.type ?? null,
+        setInfo.releaseDate ?? null,
+        setInfo.prereleaseDate ?? null,
+        cardCount,
+      );
     }
   });
   insertSets();
-  console.log(`Inserted ${setCardCounts.size} sets`);
+  console.log(`Inserted ${Object.keys(setsData).length} sets`);
 
   // Insert cards
   const insertCard = db.prepare(
