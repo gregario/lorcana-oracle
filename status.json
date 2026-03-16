@@ -4,7 +4,7 @@
   "tests_count": 92,
   "npm": { "published": true, "version": "0.1.0" },
   "glama": { "listed": false, "score_badge": true, "ownership_claimed": false },
-  "mcp_registry": { "registered": false, "mcp_name": "io.github.gregario/lorcana-oracle" },
+  "mcp_registry": { "registered": true, "mcp_name": "io.github.gregario/lorcana-oracle" },
   "awesome_mcp_servers": { "pr_submitted": false, "pr_url": null },
   "github": { "release_tag": null, "sponsor_enabled": false },
   "ci": { "oidc_publishing": false, "workflow": null }

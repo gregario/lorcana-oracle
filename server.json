@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.gregario/lorcana-oracle",
+  "description": "Disney Lorcana TCG MCP server with card search, deck analysis, ink curves, and set browsing",
+  "repository": {
+    "url": "https://github.com/gregario/lorcana-oracle",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "lorcana-oracle",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": []
+    }
+  ]
+}
