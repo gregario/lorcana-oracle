@@ -7,6 +7,9 @@ import { registerSearchCards } from './tools/search-cards.js';
 import { registerBrowseSets } from './tools/browse-sets.js';
 import { registerCharacterVersions } from './tools/character-versions.js';
 import { registerBrowseFranchise } from './tools/browse-franchise.js';
+import { registerAnalyzeInkCurve } from './tools/analyze-ink-curve.js';
+import { registerAnalyzeLore } from './tools/analyze-lore.js';
+import { registerFindSongSynergies } from './tools/find-song-synergies.js';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -41,10 +44,9 @@ export function createServer(options?: ServerOptions): McpServer {
   registerBrowseSets(server, db);
   registerCharacterVersions(server, db);
   registerBrowseFranchise(server, db);
-  // TODO: register remaining tools
-  // registerAnalyzeInkCurve(server, db);
-  // registerAnalyzeLore(server, db);
-  // registerFindSongSynergies(server, db);
+  registerAnalyzeInkCurve(server, db);
+  registerAnalyzeLore(server, db);
+  registerFindSongSynergies(server, db);
 
   return server;
 }
