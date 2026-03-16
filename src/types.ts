@@ -46,6 +46,8 @@ export interface SearchFilters {
   type?: string;
   cost?: number;
   costOp?: 'eq' | 'lte' | 'gte';
+  costMin?: number;
+  costMax?: number;
   rarity?: string;
   setCode?: string;
   story?: string;
@@ -53,9 +55,4 @@ export interface SearchFilters {
   hasKeyword?: string;
   limit?: number;
   offset?: number;
-}
-
-export interface DeckEntry {
-  count: number;
-  name: string;
 }

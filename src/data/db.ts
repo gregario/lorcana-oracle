@@ -82,6 +82,16 @@ export function searchCards(
     params.push(filters.cost);
   }
 
+  if (filters.costMin !== undefined) {
+    conditions.push('c.cost >= ?');
+    params.push(filters.costMin);
+  }
+
+  if (filters.costMax !== undefined) {
+    conditions.push('c.cost <= ?');
+    params.push(filters.costMax);
+  }
+
   if (filters.rarity) {
     conditions.push('LOWER(c.rarity) = LOWER(?)');
     params.push(filters.rarity);

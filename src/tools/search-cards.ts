@@ -51,32 +51,13 @@ export function registerSearchCards(server: McpServer, db: Database.Database): v
         type: args.type,
         rarity: args.rarity,
         setCode: args.set,
+        costMin: args.cost_min,
+        costMax: args.cost_max,
         limit: args.limit,
         offset: args.cursor,
       };
 
-      // Handle cost range — if both min and max given, do two-pass or use min with gte
-      // For simplicity: cost_min uses gte, cost_max uses lte. If both, run with gte then filter.
-      if (args.cost_min !== undefined && args.cost_max !== undefined) {
-        // Use cost_min with gte, then post-filter by cost_max
-        filters.cost = args.cost_min;
-        filters.costOp = 'gte';
-      } else if (args.cost_min !== undefined) {
-        filters.cost = args.cost_min;
-        filters.costOp = 'gte';
-      } else if (args.cost_max !== undefined) {
-        filters.cost = args.cost_max;
-        filters.costOp = 'lte';
-      }
-
-      let { rows, total } = searchCards(db, filters);
-
-      // Post-filter for cost_max when both min and max are provided
-      if (args.cost_min !== undefined && args.cost_max !== undefined) {
-        rows = rows.filter((c) => c.cost !== null && c.cost <= args.cost_max!);
-        // Recalculate total is approximate in this case
-        total = rows.length;
-      }
+      const { rows, total } = searchCards(db, filters);
 
       if (rows.length === 0) {
         return {

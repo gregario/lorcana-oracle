@@ -29,7 +29,7 @@ Disney Lorcana TCG MCP server -- card search, deck analysis, and franchise brows
 npx lorcana-oracle
 ```
 
-On first run, the server downloads card data from LorcanaJSON and builds a local SQLite database. Subsequent runs use the cached database.
+Card data (~2,710 cards) is bundled with the package. No downloads or API keys needed.
 
 ### Claude Desktop
 
