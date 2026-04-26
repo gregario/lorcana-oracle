@@ -38,6 +38,8 @@ export interface SetRow {
   release_date: string | null;
   prerelease_date: string | null;
   card_count: number;
+  /** 1 if cards are available, 0 if the set is announced but pre-release. */
+  released: number;
 }
 
 export interface SearchFilters {

@@ -223,13 +223,24 @@ describe('getCardsByCharacterName', () => {
 describe('listSets', () => {
   it('returns all sets', () => {
     const sets = listSets(db);
-    expect(sets.length).toBe(2);
+    expect(sets.length).toBe(4);
   });
 
-  it('orders by release date ascending', () => {
+  it('orders released sets by release date ascending, then unreleased', () => {
     const sets = listSets(db);
     expect(sets[0].name).toBe('The First Chapter');
     expect(sets[1].name).toBe('Rise of the Floodborn');
+    // Unreleased sets follow, with dated ones before TBA
+    expect(sets[2].name).toBe('Attack of the Vine');
+    expect(sets[3].name).toBe('Hyperia City');
+  });
+
+  it('flags unreleased sets via the released field', () => {
+    const sets = listSets(db);
+    const released = sets.filter((s) => s.released === 1).map((s) => s.name);
+    const unreleased = sets.filter((s) => s.released === 0).map((s) => s.name);
+    expect(released).toEqual(['The First Chapter', 'Rise of the Floodborn']);
+    expect(unreleased).toEqual(['Attack of the Vine', 'Hyperia City']);
   });
 });
 
