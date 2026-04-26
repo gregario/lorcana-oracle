@@ -2,7 +2,11 @@
 node_modules/
 
 # Database files
-*.sqlite
+# NOTE: src/data/lorcana.sqlite IS tracked in git for Glama auto-rebuild compat
+# (Glama clones the repo and runs the build — gitignored data files won't exist).
+# Refresh the bundled database via `npm run fetch-data` before publishing.
+*.sqlite-shm
+*.sqlite-wal
 *.db
 vendor/
 .venv/
@@ -54,6 +58,9 @@ local.properties
 
 # MCP Registry tokens (created by mcp-publisher CLI)
 .mcpregistry_*
+
+# MCP QA reports (per-session artefacts)
+.mcp-qa/
 
 # Misc
 *.tmp

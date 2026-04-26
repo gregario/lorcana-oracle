@@ -184,13 +184,16 @@ async function fetchAndIngest(): Promise<void> {
     );
   }
 
-  // Insert sets using set metadata from the response
+  // Insert sets using set metadata from the response.
+  // `released` mirrors LorcanaJSON's `hasAllCards`: 1 when cards are in the
+  // feed, 0 for announced-but-pre-release sets so the UX can label them.
   const insertSet = db.prepare(
-    'INSERT OR IGNORE INTO sets (code, name, type, release_date, prerelease_date, card_count) VALUES (?, ?, ?, ?, ?, ?)',
+    'INSERT OR IGNORE INTO sets (code, name, type, release_date, prerelease_date, card_count, released) VALUES (?, ?, ?, ?, ?, ?, ?)',
   );
   const insertSets = db.transaction(() => {
     for (const [code, setInfo] of Object.entries(setsData)) {
       const cardCount = setCardCounts.get(code) ?? 0;
+      const released = setInfo.hasAllCards ? 1 : 0;
       insertSet.run(
         code,
         setInfo.name,
@@ -198,6 +201,7 @@ async function fetchAndIngest(): Promise<void> {
         setInfo.releaseDate ?? null,
         setInfo.prereleaseDate ?? null,
         cardCount,
+        released,
       );
     }
   });

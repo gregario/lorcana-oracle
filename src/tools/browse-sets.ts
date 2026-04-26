@@ -15,6 +15,28 @@ function formatCardBrief(card: CardRow): string {
   return `  #${card.number ?? '—'} ${card.full_name ?? card.name} — ${card.color} ${card.type} | Cost ${card.cost ?? '—'}${statsStr} | ${card.rarity ?? '—'}`;
 }
 
+/**
+ * Render the cards-and-status segment of a set listing line.
+ *
+ * Sets are listed regardless of release state, but unreleased sets must be
+ * labelled so the user understands the data state. We never emit a
+ * silently-empty `Cards: 0` line — every empty set carries a status note,
+ * and pre-release sets that already have spoilers are flagged as previews.
+ */
+function formatSetStatus(set: { card_count: number; released: number; release_date: string | null }): string {
+  if (set.released === 1) {
+    return `Cards: ${set.card_count}`;
+  }
+  // Pre-release set — distinguish "we have spoilers" from "no data yet".
+  const when = set.release_date
+    ? `releases ${set.release_date}`
+    : 'release date TBA';
+  if (set.card_count > 0) {
+    return `Cards: ${set.card_count} (preview — ${when})`;
+  }
+  return `Cards: 0 (set unreleased — ${when})`;
+}
+
 export function registerBrowseSets(server: McpServer, db: Database.Database): void {
   server.registerTool(
     'browse_sets',
@@ -37,7 +59,7 @@ export function registerBrowseSets(server: McpServer, db: Database.Database): vo
         }
         const lines = sets.map(
           (s) =>
-            `**${s.name}** (${s.code})\n  Type: ${s.type ?? '—'} | Cards: ${s.card_count} | Released: ${s.release_date ?? '—'}`,
+            `**${s.name}** (${s.code})\n  Type: ${s.type ?? '—'} | ${formatSetStatus(s)} | Released: ${s.release_date ?? '—'}`,
         );
         return {
           content: [
@@ -68,18 +90,49 @@ export function registerBrowseSets(server: McpServer, db: Database.Database): vo
       const { rows } = getCardsBySet(db, args.set_code, 1000, 0);
       const header = [
         `**${set.name}** (${set.code})`,
-        `Type: ${set.type ?? '—'} | Cards: ${set.card_count} | Released: ${set.release_date ?? '—'}`,
-        '',
-        `Cards in set (${rows.length}):`,
-      ].join('\n');
+        `Type: ${set.type ?? '—'} | ${formatSetStatus(set)} | Released: ${set.release_date ?? '—'}`,
+      ];
 
+      // Unreleased set with no cards yet: explain why instead of dumping an empty list.
+      if (set.released === 0 && rows.length === 0) {
+        const when = set.release_date
+          ? `releases ${set.release_date}`
+          : 'release date TBA';
+        header.push(
+          '',
+          `This set has not yet been released (${when}). Card data will appear once it is published by the upstream data source (LorcanaJSON).`,
+        );
+        return {
+          content: [
+            {
+              type: 'text' as const,
+              text: header.join('\n'),
+            },
+          ],
+        };
+      }
+
+      // Pre-release set with spoilers: show cards but flag as preview.
+      if (set.released === 0) {
+        const when = set.release_date
+          ? `releases ${set.release_date}`
+          : 'release date TBA';
+        header.push(
+          '',
+          `Preview — this set has not yet released (${when}). The card list below reflects spoilers from the upstream data source and may be incomplete.`,
+          '',
+          `Cards in set (${rows.length}):`,
+        );
+      } else {
+        header.push('', `Cards in set (${rows.length}):`);
+      }
       const cardLines = rows.map(formatCardBrief);
 
       return {
         content: [
           {
             type: 'text' as const,
-            text: header + '\n' + cardLines.join('\n'),
+            text: header.join('\n') + '\n' + cardLines.join('\n'),
           },
         ],
       };

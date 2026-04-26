@@ -7,10 +7,14 @@ import type Database from 'better-sqlite3';
 export function seedTestData(db: Database.Database): void {
   // Insert sets
   const insertSet = db.prepare(
-    'INSERT INTO sets (code, name, type, release_date, prerelease_date, card_count) VALUES (?, ?, ?, ?, ?, ?)',
+    'INSERT INTO sets (code, name, type, release_date, prerelease_date, card_count, released) VALUES (?, ?, ?, ?, ?, ?, ?)',
   );
-  insertSet.run('1', 'The First Chapter', 'core', '2023-08-18', '2023-08-18', 204);
-  insertSet.run('2', 'Rise of the Floodborn', 'core', '2023-11-17', '2023-11-17', 204);
+  insertSet.run('1', 'The First Chapter', 'core', '2023-08-18', '2023-08-18', 204, 1);
+  insertSet.run('2', 'Rise of the Floodborn', 'core', '2023-11-17', '2023-11-17', 204, 1);
+  // Unreleased set with a known future release date
+  insertSet.run('13', 'Attack of the Vine', 'expansion', '2026-07-24', '2026-07-17', 0, 0);
+  // Unreleased set with no release date yet (TBA)
+  insertSet.run('14', 'Hyperia City', 'expansion', null, null, 0, 0);
 
   // Insert cards
   const insertCard = db.prepare(

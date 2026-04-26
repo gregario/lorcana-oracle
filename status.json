@@ -1,7 +1,7 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.2",
   "tools_count": 7,
-  "tests_count": 92,
+  "tests_count": 97,
   "npm": { "published": true, "version": "0.1.0" },
   "glama": { "listed": true, "score_badge": true, "ownership_claimed": true },
   "mcp_registry": { "registered": true, "mcp_name": "io.github.gregario/lorcana-oracle" },

@@ -1,11 +1,14 @@
 -- Sets
+-- `released` flag: 1 if cards are available (LorcanaJSON `hasAllCards`),
+-- 0 if the set is announced but pre-release (cards not yet in the data feed).
 CREATE TABLE IF NOT EXISTS sets (
   code TEXT PRIMARY KEY,
   name TEXT NOT NULL,
   type TEXT,
   release_date TEXT,
   prerelease_date TEXT,
-  card_count INTEGER DEFAULT 0
+  card_count INTEGER DEFAULT 0,
+  released INTEGER NOT NULL DEFAULT 1
 );
 
 -- Cards

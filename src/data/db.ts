@@ -156,8 +156,12 @@ export function getCardsByCharacterName(
 }
 
 export function listSets(db: Database.Database): SetRow[] {
+  // Released sets first (ordered by release date), then unreleased sets
+  // (ordered by their announced release date, with TBA last).
   return db
-    .prepare('SELECT * FROM sets ORDER BY release_date ASC')
+    .prepare(
+      'SELECT * FROM sets ORDER BY released DESC, release_date IS NULL, release_date ASC, code ASC',
+    )
     .all() as SetRow[];
 }
 
