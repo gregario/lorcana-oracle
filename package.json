@@ -1,6 +1,6 @@
 {
   "name": "lorcana-oracle",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Disney Lorcana TCG MCP server — card search, deck analysis, and franchise browsing powered by LorcanaJSON",
   "type": "module",
   "main": "dist/server.js",
