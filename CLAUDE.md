@@ -74,3 +74,11 @@ Superpowers activates automatically. Its skills enforce:
 After copying this template, run:
 1. `openspec init --tools claude` to initialize the spec system.
 2. Use `/opsx:propose` to define the product.
+
+## Data File
+
+`src/data/lorcana.sqlite` is **tracked in git** (~2.4 MB) for Glama auto-rebuild
+compatibility. Glama clones the repo and runs the build inside its container —
+gitignored data files would not exist there, so the listing would show zero
+tools. Refresh the database via `npm run fetch-data` before publishing a new
+release.
