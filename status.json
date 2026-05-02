@@ -2,10 +2,10 @@
   "version": "0.1.2",
   "tools_count": 7,
   "tests_count": 97,
-  "npm": { "published": true, "version": "0.1.0" },
+  "npm": { "published": true, "version": "0.1.2" },
   "glama": { "listed": true, "score_badge": true, "ownership_claimed": true },
   "mcp_registry": { "registered": true, "mcp_name": "io.github.gregario/lorcana-oracle" },
   "awesome_mcp_servers": { "pr_submitted": true, "pr_url": "https://github.com/punkpeye/awesome-mcp-servers/pull/3356" },
-  "github": { "release_tag": null, "sponsor_enabled": false },
+  "github": { "release_tag": "v0.1.2", "sponsor_enabled": false },
   "ci": { "oidc_publishing": false, "workflow": null }
 }

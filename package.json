@@ -34,6 +34,14 @@
     "oracle"
   ],
   "mcpName": "io.github.gregario/lorcana-oracle",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregario/lorcana-oracle.git"
+  },
+  "homepage": "https://github.com/gregario/lorcana-oracle#readme",
+  "bugs": {
+    "url": "https://github.com/gregario/lorcana-oracle/issues"
+  },
   "author": "gregario",
   "license": "MIT",
   "dependencies": {
