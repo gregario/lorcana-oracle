@@ -97,7 +97,7 @@ describe('searchCards', () => {
   it('filters by type', () => {
     const result = searchCards(db, { type: 'Song' });
     expect(result.rows.length).toBe(2);
-    expect(result.rows.every((c) => c.type === 'Song')).toBe(true);
+    expect(result.rows.every((c) => c.type === 'Action' && c.subtypes_text === 'Song')).toBe(true);
   });
 
   it('filters by exact cost', () => {
@@ -318,7 +318,7 @@ describe('getSongCards', () => {
   it('returns all song cards', () => {
     const songs = getSongCards(db);
     expect(songs.length).toBe(2);
-    expect(songs.every((c) => c.type === 'Song')).toBe(true);
+    expect(songs.every((c) => c.type === 'Action' && c.subtypes_text === 'Song')).toBe(true);
   });
 
   it('filters by max cost', () => {

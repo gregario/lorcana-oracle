@@ -85,10 +85,10 @@ export function seedTestData(db: Database.Database): void {
   // 5: A Whole New World (Amber Song, cost 5, set 1, Aladdin)
   insertCard.run(
     5, 'A Whole New World', 'A Whole New World', 'a-whole-new-world', null,
-    'Song', 'Amber', 5, 1,
+    'Action', 'Amber', 5, 1,
     null, null, null, null, 'Uncommon', 4, '1',
     'Each player draws 7 cards.',
-    null, null, 'Aladdin',
+    '["Song"]', 'Song', 'Aladdin',
     null,
     'A dazzling place I never knew.', 'Artist Name', 'https://example.com/awholenewworld.png',
     null, null, null, null, null, null,
@@ -97,10 +97,10 @@ export function seedTestData(db: Database.Database): void {
   // 6: Let It Go (Amethyst Song, cost 3, set 1, Frozen)
   insertCard.run(
     6, 'Let It Go', 'Let It Go', 'let-it-go', null,
-    'Song', 'Amethyst', 3, 1,
+    'Action', 'Amethyst', 3, 1,
     null, null, null, null, 'Common', 5, '1',
     'Deal 3 damage to chosen character.',
-    null, null, 'Frozen',
+    '["Song"]', 'Song', 'Frozen',
     null,
     "Can't hold it back anymore.", 'Artist Name', 'https://example.com/letitgo.png',
     null, null, null, null, null, null,

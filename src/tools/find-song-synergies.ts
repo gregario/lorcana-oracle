@@ -72,7 +72,8 @@ export function registerFindSongSynergies(server: McpServer, db: Database.Databa
       }
 
       // Song mode — find characters that can sing this song
-      if (card.type === 'Song') {
+      const isSong = card.type === 'Action' && card.subtypes_text?.toLowerCase() === 'song';
+      if (isSong) {
         const singers = getCharactersByMinCost(db, card.cost ?? 0);
         let filtered = args.ink
           ? singers.filter((c) => c.color.toLowerCase() === args.ink!.toLowerCase())

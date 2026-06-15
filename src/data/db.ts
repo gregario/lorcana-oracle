@@ -71,8 +71,12 @@ export function searchCards(
   }
 
   if (filters.type) {
-    conditions.push('LOWER(c.type) = LOWER(?)');
-    params.push(filters.type);
+    if (filters.type.toLowerCase() === 'song') {
+      conditions.push("LOWER(c.type) = 'action' AND LOWER(c.subtypes_text) = 'song'");
+    } else {
+      conditions.push('LOWER(c.type) = LOWER(?)');
+      params.push(filters.type);
+    }
   }
 
   if (filters.cost !== undefined) {
@@ -225,13 +229,13 @@ export function getSongCards(
   if (maxCost !== undefined) {
     return db
       .prepare(
-        "SELECT * FROM cards WHERE LOWER(type) = 'song' AND cost <= ? ORDER BY cost ASC, name ASC",
+        "SELECT * FROM cards WHERE LOWER(type) = 'action' AND LOWER(subtypes_text) = 'song' AND cost <= ? ORDER BY cost ASC, name ASC",
       )
       .all(maxCost) as CardRow[];
   }
   return db
     .prepare(
-      "SELECT * FROM cards WHERE LOWER(type) = 'song' ORDER BY cost ASC, name ASC",
+      "SELECT * FROM cards WHERE LOWER(type) = 'action' AND LOWER(subtypes_text) = 'song' ORDER BY cost ASC, name ASC",
     )
     .all() as CardRow[];
 }

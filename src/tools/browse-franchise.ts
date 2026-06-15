@@ -89,7 +89,11 @@ export function registerBrowseFranchise(server: McpServer, db: Database.Database
 
       // Compute stats
       const inkDist = computeDistribution(rows, 'color');
-      const typeDist = computeDistribution(rows, 'type');
+      const typeDist = new Map<string, number>();
+      for (const card of rows) {
+        const displayType = card.type === 'Action' && card.subtypes_text?.toLowerCase() === 'song' ? 'Song' : card.type;
+        typeDist.set(displayType, (typeDist.get(displayType) ?? 0) + 1);
+      }
       const rarityDist = computeDistribution(rows, 'rarity');
       const setDist = computeDistribution(rows, 'set_code');
 
